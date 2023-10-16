@@ -11,6 +11,7 @@ public class MovingPlat : MonoBehaviour
     private Vector3 endPos;
     private float elapsedTime;
     private bool reverse = true;
+    
 
 
 
@@ -37,6 +38,7 @@ public class MovingPlat : MonoBehaviour
 
     void Start()
     {
+        
         startPos = transform.position;
         endPos = endPlat.transform.position;
     }

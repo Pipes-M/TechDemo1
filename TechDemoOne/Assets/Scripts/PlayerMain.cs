@@ -9,13 +9,13 @@ public class PlayerScript : MonoBehaviour
     public float jetFuelLossRate = 0.1f;
     [HideInInspector] public float jetFuelMax = 1f;
     public float jetStr = 5f;
-
+    public GameObject boomerang;
     private Rigidbody2D body;
     private float playerInput;
     private BoxCollider2D boxCollider;
     private RaycastHit2D raycastHit;
     private bool isGrounded;
-
+    private bool canLadder;
 
 
 
@@ -37,8 +37,25 @@ public class PlayerScript : MonoBehaviour
             isGrounded = false;
         }
     }
-    
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Ladder")
+        {
+            canLadder = true;
+            body.gravityScale = 0;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Ladder")
+        {
+            canLadder = false;
+            body.velocity = new Vector2(0, 0);
+            body.gravityScale = 1;
+        }
+    }
 
 
 
@@ -63,7 +80,22 @@ public class PlayerScript : MonoBehaviour
             
         }
         jetpack();
-        
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(boomerang, transform.position, Quaternion.identity);
+            
+        }
+
+
+
+        if (Input.GetKey(KeyCode.W) && canLadder)
+        {
+            body.velocity = new Vector2(body.velocity.x, 5);
+
+        }
+
+
     }
 
     void FixedUpdate()
